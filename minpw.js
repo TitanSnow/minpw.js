@@ -78,7 +78,7 @@
 			}else if(arguments.length==2){
 				j=this.length
 			}
-			if(j<0) j=this.length+j;
+			if(j<0) j=this.length+j
 			var pos=this.indexOf(x,i)
 			if(pos==-1||pos>=j)
 				throw outside.ValueError
