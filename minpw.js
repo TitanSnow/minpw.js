@@ -58,6 +58,10 @@
 			})
 		}
 		list.prototype.times=function(n){
+			if(n<=0){
+				this.clear()
+				return
+			}
 			var len=this.length
 			var k,i
 			for(k=1;k<n;++k)
@@ -101,7 +105,21 @@
 			})
 			return ans
 		}
-		// TODO: add more method
+		list.prototype.append=function(x){
+			this.push(x)
+		}
+		list.prototype.clear=function(){
+			this.splice(0)
+		}
+		list.prototype.copy=function(){
+			return this.slice(0)
+		}
+		list.prototype.insert=function(i,x){
+			this.splice(i,0,x)
+		}
+		list.prototype.remove=function(x){
+			this.splice(this.index(x),1)
+		}
 		var key
 		for(key in list.prototype)
 			if(list.prototype.hasOwnProperty(key))
