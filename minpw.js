@@ -29,13 +29,14 @@
 		class ValueError extends BaseException{}
 		outside.ValueError=wrapperConstructor.bind(null,ValueError)
 	})()
-	;(function implementList(list){
+	;(function implementList(ArrayName){
 		function at2(pos,val){
 			if(pos<0)
 				this[this.length+pos]=val
 			else
 				this[pos]=val
 		}
+		class list extends outside[ArrayName]{}
 		list.prototype.at=function(pos){
 			if(arguments.length==2)
 				return at2.call(this,arguments[0],arguments[1])
@@ -50,13 +51,13 @@
 		list.prototype.not_in=function(x){
 			return this.indexOf(x)==-1
 		}
-		list.prototype.add=function(lst){
+		list.prototype.extend=function(lst){
 			var that=this
 			lst.forEach(function(e){
 				that.push(e)
 			})
 		}
-		list.prototype.multiply=function(n){
+		list.prototype.times=function(n){
 			var len=this.length
 			var k,i
 			for(k=1;k<n;++k)
@@ -101,7 +102,17 @@
 			return ans
 		}
 		// TODO: add more method
-	})(Array)
+		var key
+		for(key in list.prototype)
+			if(list.prototype.hasOwnProperty(key))
+				outside[ArrayName].prototype[key]=list.prototype[key]
+		outside.list=function(arr){
+			return arr
+		}
+		outside.tuple=function(arr){
+			return arr
+		}
+	})("Array")
 	class Pygame{
 		// TODO: implement
 	}
