@@ -21,7 +21,9 @@
 	}
 	;(function implementExceptions(){
 		class BaseException{
-			// TODO: implement
+			constructor(args){
+				this.args=args
+			}
 		}
 		outside.BaseException=wrapperConstructor.bind(null,BaseException)
 		class ValueError extends BaseException{}
