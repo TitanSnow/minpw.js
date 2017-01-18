@@ -130,6 +130,16 @@
 		outside.tuple=function(arr){
 			return arr
 		}
+		outside.range=function(l,r){
+			if(arguments.length==1){
+				r=l;
+				l=0;
+			}
+			var i,lst=[]
+			for(i=l;i<r;++i)
+				lst.append(i)
+			return lst
+		}
 	})("Array")
 	class Pygame{
 		// TODO: implement
