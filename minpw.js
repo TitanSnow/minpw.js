@@ -141,6 +141,24 @@
 			return lst
 		}
 	})("Array")
+	class Random{
+		random(){
+			return Math.random();
+		}
+		randint(l,r){
+			return parseInt(this.random()*(r-l+1)+l);
+		}
+		choice(list){
+			return list[this.randint(0,list.length-1)];
+		}
+		randrange(){
+			return this.choice(outside.range.apply(null,Array.prototype.slice.call(arguments,0)))
+		}
+		uniform(a,b){
+			return a+(b-a)*this.random()
+		}
+	}
+	outside.random=new Random()
 	class Pygame{
 		// TODO: implement
 	}
