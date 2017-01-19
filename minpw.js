@@ -160,7 +160,98 @@
 	}
 	outside.random=new Random()
 	class Pygame{
-		// TODO: implement
+		constructor(){
+			this.event=[]
+			this.event.get=function(){
+				var es=[];
+				while(this.length)
+					es.push(this.shift());
+				return es;
+			}
+			this.Color=function(){
+				var arr=Array.prototype.slice.call(arguments,0)
+				Object.defineProperty(arr,"r",{
+					__proto__:null,
+					get:function(){
+						return this[0]
+					},
+					set:function(x){
+						this[0]=x
+					}
+				})
+				Object.defineProperty(arr,"g",{
+					__proto__:null,
+					get:function(){
+						return this[1]
+					},
+					set:function(x){
+						this[1]=x
+					}
+				})
+				Object.defineProperty(arr,"b",{
+					__proto__:null,
+					get:function(){
+						return this[2]
+					},
+					set:function(x){
+						this[2]=x
+					}
+				})
+				Object.defineProperty(arr,"a",{
+					__proto__:null,
+					get:function(){
+						return this[3]
+					},
+					set:function(x){
+						this[3]=x
+					}
+				})
+				return arr
+			}
+			// TODO: implement Rect
+			class Surface{
+				constructor(size){
+					size=size[0]
+					this.context=document.createElement("canvas").getContext("2d")
+					this.canvas.width=size[0]
+					this.canvas.height=size[1]
+				}
+				get width(){
+					return parseInt(this.canvas.width)
+				}
+				set width(x){
+					this.canvas.width=x
+				}
+				get height(){
+					return parseInt(this.canvas.height)
+				}
+				set height(x){
+					this.canvas.height=x
+				}
+				get canvas(){
+					return this.context.canvas
+				}
+				blit(suf,pos){
+					this.context.drawImage(suf.canvas,Math.round(pos[0]),Math.round(pos[1]))
+				}
+				fill(color){
+					this.context.save()
+					this.context.fillStyle="rgb("+color[0]+","+color[1]+","+color[2]+")"
+					this.context.fillRect(0,0,Math.round(this.width),Math.round(this.height))
+					this.context.restore()
+				}
+				// TODO: implement get_rect()
+			}
+			this.Surface=wrapperConstructor.bind(null,Surface)
+		}
+		init(){
+			var key
+			for(key in this)
+				if(this.hasOwnProperty(key))
+					if(this[key].hasOwnProperty("init"))
+						if(typeof(this[key].init)=="function")
+							this[key].init(this)
+		}
 	}
 	outside.pygame=new Pygame()
 })(window);
