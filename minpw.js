@@ -333,6 +333,27 @@
 				}
 			}
 			this.Surface=wrapperConstructor.bind(null,Surface)
+			class Image extends Surface{
+				constructor(img){
+					img=img[0]
+					super([[img.width,img.height]])
+					this.context.drawImage(img,0,0)
+				}
+			}
+			this.Image=wrapperConstructor.bind(null,Image)
+			this.image={
+				init(){
+					this.load=function(src,callback){
+						var img=document.createElement("img")
+						img.src=src
+						img.alt=""
+						img.onload=function(){
+							var image=that.Image(img)
+							callback(image)
+						}
+					}
+				}
+			}
 		}
 		init(){
 			var key
