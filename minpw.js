@@ -355,6 +355,75 @@
 					}
 				}
 			}
+			this.display={
+				get_init:function(){
+					return false
+				},
+				init:function(pygame){
+					this.get_init=function(){
+						return true
+					}
+					var that2=this
+					this.set_mode=function(size){
+						var screen
+						if(typeof(that2.get_surface)!="function"){
+							screen=pygame.Surface(size)
+							document.body.appendChild(screen.canvas)
+							that2.get_surface=function(){
+								return screen
+							}
+							screen.fill([0,0,0])
+							return screen
+						}
+						screen=that2.get_surface()
+						screen.width=size[0]
+						screen.height=size[1]
+						screen.fill([0,0,0])
+						return screen
+					}
+					this.flip=this.update=function(){}
+					this.set_caption=function(st){
+						var ns=document.getElementsByTagName("title")
+						if(ns.length==0){
+							var nd=document.createElement("title")
+							nd.textContent=st
+							document.head.appendChild(nd)
+						}else{
+							ns[0].textContent=st
+						}
+					}
+					this.get_caption=function(){
+						var ns=document.getElementsByTagName("title")
+						if(ns.length!=0)
+							return ns[0].textContent
+					}
+					function toggleFullScreen(ele) {
+						if (!document.fullscreenElement &&    // alternative standard method
+							!document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+							if (ele.requestFullscreen) {
+								ele.requestFullscreen();
+							} else if (ele.mozRequestFullScreen) {
+								ele.mozRequestFullScreen();
+							} else if (ele.webkitRequestFullscreen) {
+								ele.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+							}
+							return true
+						} else {
+							if (document.cancelFullScreen) {
+								document.cancelFullScreen();
+							} else if (document.mozCancelFullScreen) {
+								document.mozCancelFullScreen();
+							} else if (document.webkitCancelFullScreen) {
+								document.webkitCancelFullScreen();
+							}
+							return false
+						}
+					}
+					this.toggle_fullscreen=function(){
+						return toggleFullScreen(that2.get_surface().canvas)
+					}
+				}
+			}
 		}
 		init(){
 			var key
