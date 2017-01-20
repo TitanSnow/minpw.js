@@ -16,6 +16,7 @@
 
 ;(function(outside){
 	"use strict"
+	outside.python={}
 	function wrapperConstructor(cls){
 		return new cls(Array.prototype.slice.call(arguments,1))
 	}
@@ -25,9 +26,9 @@
 				this.args=args
 			}
 		}
-		outside.BaseException=wrapperConstructor.bind(null,BaseException)
+		outside.python.BaseException=wrapperConstructor.bind(null,BaseException)
 		class ValueError extends BaseException{}
-		outside.ValueError=wrapperConstructor.bind(null,ValueError)
+		outside.python.ValueError=wrapperConstructor.bind(null,ValueError)
 	})()
 	;(function implementList(ArrayName){
 		function at2(pos,val){
@@ -95,7 +96,7 @@
 			if(j<0) j=this.length+j
 			var pos=this.indexOf(x,i)
 			if(pos==-1||pos>=j)
-				throw outside.ValueError(x+" is not in list")
+				throw outside.python.ValueError(x+" is not in list")
 			return pos
 		}
 		list.prototype.count=function(x){
