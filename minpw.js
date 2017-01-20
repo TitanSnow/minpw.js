@@ -132,8 +132,8 @@
 		}
 		outside.range=function(l,r){
 			if(arguments.length==1){
-				r=l;
-				l=0;
+				r=l
+				l=0
 			}
 			var i,lst=[]
 			for(i=l;i<r;++i)
@@ -143,13 +143,13 @@
 	})("Array")
 	class Random{
 		random(){
-			return Math.random();
+			return Math.random()
 		}
 		randint(l,r){
-			return parseInt(this.random()*(r-l+1)+l);
+			return parseInt(this.random()*(r-l+1)+l)
 		}
 		choice(list){
-			return list[this.randint(0,list.length-1)];
+			return list[this.randint(0,list.length-1)]
 		}
 		randrange(){
 			return this.choice(outside.range.apply(null,Array.prototype.slice.call(arguments,0)))
@@ -161,12 +161,13 @@
 	outside.random=new Random()
 	class Pygame{
 		constructor(){
+			var that=this
 			this.event=[]
 			this.event.get=function(){
-				var es=[];
+				var es=[]
 				while(this.length)
-					es.push(this.shift());
-				return es;
+					es.push(this.shift())
+				return es
 			}
 			this.Color=function(){
 				var arr=Array.prototype.slice.call(arguments,0)
@@ -208,7 +209,94 @@
 				})
 				return arr
 			}
-			// TODO: implement Rect
+			this.Rect=function(x,y,w,h){
+				var obj=[x,y,w,h]
+				Object.defineProperty(obj,"x",{
+					__proto__:null,
+					get:function(){
+						return this[0]
+					},
+					set:function(x){
+						this[0]=x
+					}
+				})
+				Object.defineProperty(obj,"y",{
+					__proto__:null,
+					get:function(){
+						return this[1]
+					},
+					set:function(x){
+						this[1]=x
+					}
+				})
+				Object.defineProperty(obj,"w",{
+					__proto__:null,
+					get:function(){
+						return this[2]
+					},
+					set:function(x){
+						this[2]=x
+					}
+				})
+				Object.defineProperty(obj,"h",{
+					__proto__:null,
+					get:function(){
+						return this[3]
+					},
+					set:function(x){
+						this[3]=x
+					}
+				})
+				Object.defineProperty(obj,"width",{
+					__proto__:null,
+					get:function(){
+						return this.w
+					},
+					set:function(x){
+						this.w=x
+					}
+				})
+				Object.defineProperty(obj,"height",{
+					__proto__:null,
+					get:function(){
+						return this.h
+					},
+					set:function(x){
+						this.h=x
+					}
+				})
+				Object.defineProperty(obj,"left",{
+					__proto__:null,
+					get:function(){
+						return this.x
+					},
+					set:function(x){
+						this.x=x
+					}
+				})
+				Object.defineProperty(obj,"top",{
+					__proto__:null,
+					get:function(){
+						return this.y
+					},
+					set:function(x){
+						this.y=x
+					}
+				})
+				Object.defineProperty(obj,"right",{
+					__proto__:null,
+					get:function(){
+						return this.x+this.w
+					}
+				})
+				Object.defineProperty(obj,"bottom",{
+					__proto__:null,
+					get:function(){
+						return this.y+this.h
+					}
+				})
+				return obj
+			}
 			class Surface{
 				constructor(size){
 					size=size[0]
@@ -240,7 +328,9 @@
 					this.context.fillRect(0,0,Math.round(this.width),Math.round(this.height))
 					this.context.restore()
 				}
-				// TODO: implement get_rect()
+				get_rect(){
+					return that.Rect(0,0,this.width,this.height)
+				}
 			}
 			this.Surface=wrapperConstructor.bind(null,Surface)
 		}
