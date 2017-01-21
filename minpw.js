@@ -424,6 +424,44 @@
 					}
 				}
 			}
+			this.time={
+				init:function(pygame){
+					this.delay=this.wait=function(time,callback){
+						setTimeout(callback,time)
+					}
+					class Clock{
+						tick(fps,callback){
+							if(fps!=60)
+								throw outside.python.ValueError("fps must be 60")
+							requestAnimationFrame(callback)
+						}
+						tick_busy_loop(fps,callback){
+							return this.tick(fps,callback)
+						}
+						get_fps(){
+							return 60
+						}
+					}
+					this.Clock=wrapperConstructor.bind(null,Clock)
+					var init_time=Date.now()
+					this.get_ticks=function(){
+						return Date.now()-init_time
+					}
+					var timers={}
+					this.set_timer=function(eventid,time){
+						if(time==0){
+							clearInterval(timers[eventid])
+						}else{
+							timers[eventid]=setInterval(function(){
+								pygame.event.push({type:eventid})
+							},time)
+						}
+					}
+				},
+				get_ticks:function(){
+					return 0
+				}
+			}
 		}
 		init(){
 			var key
