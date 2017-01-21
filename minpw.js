@@ -16,7 +16,11 @@
 
 ;(function(outside){
 	"use strict"
-	outside.python={}
+	outside.python={
+		None:null,
+		True:true,
+		False:false
+	}
 	function wrapperConstructor(cls){
 		return new cls(Array.prototype.slice.call(arguments,1))
 	}
@@ -460,6 +464,53 @@
 				},
 				get_ticks:function(){
 					return 0
+				}
+			}
+			this.font={
+				init:function(pygame){
+					var that2=this
+					this.get_init=function(){
+						return true
+					}
+					this.get_default_font=function(){
+						return "sans-serif"
+					}
+					class Font{
+						constructor(args){
+							this.fontname=args[0]
+							this.fontsize=args[1]
+						}
+						size(text){
+							var context=document.createElement("canvas").getContext("2d")
+							if(this.fontname==null)
+								context.font=this.fontsize+"px "+that2.get_default_font()
+							else
+								context.font=this.fontsize+"px "+this.fontname
+							context.textBaseline="top"
+							return pygame.Rect(0,0,Math.max(Math.ceil(context.measureText(text).width),1),this.fontsize)
+						}
+						render(text,antialias,color,background){
+							var rect=this.size(text)
+							var suf=pygame.Surface([rect.w,rect.h])
+							if(background!=null){
+								suf.fill(background)
+							}
+							suf.context.save()
+							if(this.fontname==null)
+								suf.context.font=this.fontsize+"px "+that2.get_default_font()
+							else
+								suf.context.font=this.fontsize+"px "+this.fontname
+							suf.context.textBaseline="top"
+							suf.context.fillStyle="rgb("+color[0]+","+color[1]+","+color[2]+")"
+							suf.context.fillText(text,0,0)
+							suf.context.restore()
+							return suf
+						}
+					}
+					this.Font=wrapperConstructor.bind(null,Font)
+				},
+				get_init(){
+					return false
 				}
 			}
 		}
