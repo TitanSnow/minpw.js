@@ -348,7 +348,12 @@
 			this.Image=wrapperConstructor.bind(null,Image)
 			this.image={
 				init(){
-					this.load=function(src,callback){
+					this.load=function load(src,callback){
+						if(arguments.length==1){
+							return new Promise(function(resolve,reject){
+								load(src,resolve)
+							})
+						}
 						var img=document.createElement("img")
 						img.src=src
 						img.alt=""
@@ -430,17 +435,27 @@
 			}
 			this.time={
 				init:function(pygame){
-					this.delay=this.wait=function(time,callback){
+					this.delay=this.wait=function wait(time,callback){
+						if(arguments.length==1){
+							return new Promise(function(resolve,reject){
+								wait(time,resolve)
+							})
+						}
 						setTimeout(callback,time)
 					}
 					class Clock{
 						tick(fps,callback){
 							if(fps!=60)
 								throw outside.python.ValueError("fps must be 60")
+							if(arguments.length==1){
+								return new Promise((function(resolve,reject){
+									this.tick(fps,resolve)
+								}).bind(this))
+							}
 							requestAnimationFrame(callback)
 						}
 						tick_busy_loop(fps,callback){
-							return this.tick(fps,callback)
+							return this.tick.apply(this,Array.from(arguments))
 						}
 						get_fps(){
 							return 60
