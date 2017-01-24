@@ -345,6 +345,22 @@
 				get_rect(){
 					return that.Rect(0,0,this.width,this.height)
 				}
+				convert(){return this}
+				convert_alpha(){return this}
+				copy(){
+					var suf=new Surface([[this.width,this.height]])
+					suf.context.drawImage(this.canvas,0,0)
+					return suf
+				}
+				get_size(){
+					return [this.width,this.height]
+				}
+				get_width(){
+					return this.width
+				}
+				get_height(){
+					return this.height
+				}
 			}
 			this.Surface=wrapperConstructor.bind(null,Surface)
 			class Image extends Surface{
