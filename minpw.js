@@ -16,10 +16,16 @@
 
 ;(function(outside){
 	"use strict"
-	outside.python={
+	var python=outside.python={
 		None:null,
 		True:true,
-		False:false
+		False:false,
+		init:function(){
+			var key
+			for(key in this)
+				if(this.hasOwnProperty(key)&&key!="init")
+					outside[key]=this[key]
+		}
 	}
 	function wrapperConstructor(cls){
 		return new cls(Array.prototype.slice.call(arguments,1))
@@ -30,18 +36,18 @@
 				this.args=args
 			}
 		}
-		outside.python.BaseException=wrapperConstructor.bind(null,BaseException)
+		python.BaseException=wrapperConstructor.bind(null,BaseException)
 		class ValueError extends BaseException{}
-		outside.python.ValueError=wrapperConstructor.bind(null,ValueError)
+		python.ValueError=wrapperConstructor.bind(null,ValueError)
 	})()
-	;(function implementList(ArrayName){
+	;(function implementList(Array){
 		function at2(pos,val){
 			if(pos<0)
 				this[this.length+pos]=val
 			else
 				this[pos]=val
 		}
-		class list extends outside[ArrayName]{}
+		class list extends Array{}
 		list.prototype.at=function(pos){
 			if(arguments.length==2)
 				return at2.call(this,arguments[0],arguments[1])
@@ -100,7 +106,7 @@
 			if(j<0) j=this.length+j
 			var pos=this.indexOf(x,i)
 			if(pos==-1||pos>=j)
-				throw outside.python.ValueError(x+" is not in list")
+				throw python.ValueError(x+" is not in list")
 			return pos
 		}
 		list.prototype.count=function(x){
@@ -128,7 +134,7 @@
 		var key
 		for(key in list.prototype)
 			if(list.prototype.hasOwnProperty(key))
-				outside[ArrayName].prototype[key]=list.prototype[key]
+				Array.prototype[key]=list.prototype[key]
 		outside.list=function(arr){
 			return arr
 		}
@@ -145,7 +151,10 @@
 				lst.append(i)
 			return lst
 		}
-	})("Array")
+		outside.len=function(arr){
+			return arr.len()
+		}
+	})(outside.Array)
 	class Random{
 		random(){
 			return Math.random()
@@ -157,7 +166,7 @@
 			return list[this.randint(0,list.length-1)]
 		}
 		randrange(){
-			return this.choice(outside.range.apply(null,Array.prototype.slice.call(arguments,0)))
+			return this.choice(outside.range.apply(null,Array.from(arguments)))
 		}
 		uniform(a,b){
 			return a+(b-a)*this.random()
@@ -175,7 +184,7 @@
 				return es
 			}
 			this.Color=function(){
-				var arr=Array.prototype.slice.call(arguments,0)
+				var arr=Array.from(arguments)
 				Object.defineProperty(arr,"r",{
 					__proto__:null,
 					get:function(){
@@ -446,7 +455,7 @@
 					class Clock{
 						tick(fps,callback){
 							if(fps!=60)
-								throw outside.python.ValueError("fps must be 60")
+								throw python.ValueError("fps must be 60")
 							if(arguments.length==1){
 								return new Promise((function(resolve,reject){
 									this.tick(fps,resolve)
