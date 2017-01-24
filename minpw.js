@@ -215,10 +215,20 @@
 				Object.defineProperty(arr,"a",{
 					__proto__:null,
 					get:function(){
-						return this[3]
+						if(this.length==4) return this[3]
+						else return 255
 					},
 					set:function(x){
 						this[3]=x
+					}
+				})
+				Object.defineProperty(arr,"a01",{
+					__proto__:null,
+					get:function(){
+						return this.a/255
+					},
+					set:function(x){
+						this.a=Math.round(x*255)
 					}
 				})
 				return arr
@@ -338,7 +348,8 @@
 				}
 				fill(color){
 					this.context.save()
-					this.context.fillStyle="rgb("+color[0]+","+color[1]+","+color[2]+")"
+					color=that.Color.apply(that,color)
+					this.context.fillStyle="rgba("+color.r+","+color.g+","+color.b+","+color.a01+")"
 					this.context.fillRect(0,0,Math.round(this.width),Math.round(this.height))
 					this.context.restore()
 				}
@@ -541,7 +552,8 @@
 							else
 								suf.context.font=this.fontsize+"px "+this.fontname
 							suf.context.textBaseline="top"
-							suf.context.fillStyle="rgb("+color[0]+","+color[1]+","+color[2]+")"
+							color=that.Color.apply(that,color)
+							suf.context.fillStyle="rgba("+color.r+","+color.g+","+color.b+","+color.a01+")"
 							suf.context.fillText(text,0,0)
 							suf.context.restore()
 							return suf
