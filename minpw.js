@@ -30,13 +30,15 @@
 	function wrapperConstructor(cls){
 		return new cls(Array.prototype.slice.call(arguments,1))
 	}
+	var BaseException,Exception
 	;(function implementExceptions(){
-		class BaseException{
+		BaseException=Exception=class{
 			constructor(args){
 				this.args=args
 			}
 		}
 		python.BaseException=wrapperConstructor.bind(null,BaseException)
+		python.Exception=wrapperConstructor.bind(null,Exception)
 		class ValueError extends BaseException{}
 		python.ValueError=wrapperConstructor.bind(null,ValueError)
 	})()
@@ -183,6 +185,8 @@
 					es.push(this.shift())
 				return es
 			}
+			class PygameError extends Exception{}
+			this.error=wrapperConstructor.bind(null,PygameError)
 			this.Color=function(){
 				var arr=Array.from(arguments)
 				Object.defineProperty(arr,"r",{
@@ -482,7 +486,7 @@
 					class Clock{
 						tick(fps,callback){
 							if(fps!=60)
-								throw python.ValueError("fps must be 60")
+								throw pygame.error("fps must be 60")
 							if(arguments.length==1){
 								return new Promise((function(resolve,reject){
 									this.tick(fps,resolve)
