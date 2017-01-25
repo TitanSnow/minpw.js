@@ -596,6 +596,37 @@
 						this.flip2(new_suf,suf,xbool,ybool)
 						return new_suf
 					}
+					this.scale2=function(suf,suf_source,size,size_source){
+						var dw=size[0]
+						var dh=size[1]
+						var ow=size_source[0]
+						var oh=size_source[1]
+						var rw=dw/ow
+						var rh=dh/oh
+						var ctx=suf.context
+						ctx.save()
+						ctx.scale(rw,rh)
+						ctx.globalCompositeOperation="copy"
+						ctx.drawImage(suf_source.canvas,0,0)
+						ctx.restore()
+					}
+					//this.scale_ip=function(suf,size){
+					//	var w=size[0]
+					//	var h=size[1]
+					//	var ow=suf.width
+					//	var oh=suf.height
+					//	suf.width=Math.max(ow,w)
+					//	suf.height=Math.max(oh,h)
+					//	this.scale2(suf,suf,size,[ow,oh])
+					//	suf.width=w
+					//	suf.height=h
+					//}
+					this.scale=function(suf,size,suf_dest){
+						if(arguments.length!=3)
+							suf_dest=pygame.Surface(size)
+						this.scale2(suf_dest,suf,size,[suf.width,suf.height])
+						return suf_dest
+					}
 				}
 			}
 		}
