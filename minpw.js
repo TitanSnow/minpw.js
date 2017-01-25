@@ -569,6 +569,27 @@
 					return false
 				}
 			}
+			this.transform={
+				init:function(pygame){
+					this.flip_ip=function(suf,xbool,ybool){
+						var ctx=suf.context
+						ctx.save()
+						var dx,dy
+						if(xbool)
+							dx=-1
+						else
+							dx=1
+						if(ybool)
+							dy=-1
+						else
+							dy=1
+						ctx.scale(dx,dy)
+						ctx.globalCompositeOperation="copy"
+						ctx.drawImage(suf.canvas,Math.min(0,suf.width*dx),Math.min(0,suf.height*dy))
+						ctx.restore()
+					}
+				}
+			}
 		}
 		init(){
 			var key
