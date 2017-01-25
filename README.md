@@ -50,6 +50,7 @@ minpw.js is developing, and will not be finished in long long time. minpw.js's o
 	* display
 	* time
 	* font
+	* transform
 	* ...
 
 All of this are part not full because minpw.js is *MIN*. (Maybe another reason: I'm lazy)
