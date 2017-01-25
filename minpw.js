@@ -621,11 +621,16 @@
 					//	suf.width=w
 					//	suf.height=h
 					//}
-					this.scale=function(suf,size,suf_dest){
+					this.smoothscale=this.scale=function(suf,size,suf_dest){
 						if(arguments.length!=3)
 							suf_dest=pygame.Surface(size)
 						this.scale2(suf_dest,suf,size,[suf.width,suf.height])
 						return suf_dest
+					}
+					this.scale2x=function(suf,suf_dest){
+						var arg=Array.from(arguments)
+						arg.insert(1,[suf.width*2,suf.height*2])
+						return this.scale.apply(this,arg)
 					}
 				}
 			}
