@@ -571,7 +571,7 @@
 			}
 			this.transform={
 				init:function(pygame){
-					this.flip_ip=function(suf,xbool,ybool){
+					this.flip2=function(suf,suf_source,xbool,ybool){
 						var ctx=suf.context
 						ctx.save()
 						var dx,dy
@@ -585,8 +585,16 @@
 							dy=1
 						ctx.scale(dx,dy)
 						ctx.globalCompositeOperation="copy"
-						ctx.drawImage(suf.canvas,Math.min(0,suf.width*dx),Math.min(0,suf.height*dy))
+						ctx.drawImage(suf_source.canvas,Math.min(0,suf.width*dx),Math.min(0,suf.height*dy))
 						ctx.restore()
+					}
+					this.flip_ip=function(suf,xbool,ybool){
+						this.flip2(suf,suf,xbool,ybool)
+					}
+					this.flip=function(suf,xbool,ybool){
+						var new_suf=pygame.Surface([suf.width,suf.height])
+						this.flip2(new_suf,suf,xbool,ybool)
+						return new_suf
 					}
 				}
 			}
