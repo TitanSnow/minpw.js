@@ -437,7 +437,13 @@
 						screen.fill([0,0,0])
 						return screen
 					}
-					this.flip=this.update=function(){}
+					this.flip=this.update=function(){
+						var suf=this.get_surface()
+						var oco=suf.context.globalCompositeOperation
+						suf.context.globalCompositeOperation="destination-over"
+						suf.fill([0,0,0])
+						suf.context.globalCompositeOperation=oco
+					}
 					this.set_caption=function(st){
 						var ns=document.getElementsByTagName("title")
 						if(ns.length==0){
