@@ -325,6 +325,10 @@
 				})
 				return obj
 			}
+			function blit3(suf,pos,area){
+				area=that.Rect.apply(null,area)
+				this.context.drawImage(suf.canvas,area.x,area.y,area.w,area.h,pos[0],pos[1],area.w,area.h)
+			}
 			class Surface{
 				constructor(size){
 					size=size[0]
@@ -347,8 +351,11 @@
 				get canvas(){
 					return this.context.canvas
 				}
-				blit(suf,pos){
-					this.context.drawImage(suf.canvas,Math.round(pos[0]),Math.round(pos[1]))
+				blit(suf,pos,area){
+					if(arguments.length>=3)
+						blit3.call(this,suf,pos,area)
+					else
+						this.context.drawImage(suf.canvas,Math.round(pos[0]),Math.round(pos[1]))
 				}
 				fill(color){
 					this.context.save()
