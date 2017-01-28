@@ -653,6 +653,37 @@
 						this.mpwBlur_ip(dest,radius)
 						return dest
 					}
+					this.rotate2=function(suf,suf_source,angle){
+						suf.context.save()
+						suf.context.globalCompositeOperation="copy"
+						suf.context.translate(Math.round(suf.width/2),Math.round(suf.height/2))
+						suf.context.rotate(-angle*Math.PI/180)
+						suf.blit(suf_source,[suf_source.width/-2,suf_source.height/-2])
+						suf.context.restore()
+					}
+					this.rotate=function(suf,angle){
+						var w=suf.width
+						var h=suf.height
+						function sin(x){
+							return Math.sin(x*Math.PI/180)
+						}
+						function cos(x){
+							return Math.cos(x*Math.PI/180)
+						}
+						var agl=Math.abs(angle)
+						if(agl>90){
+							var la=90
+							var bl=true
+							while(la+90<=agl) la+=90,bl=!bl
+							if(bl)
+								agl=90-agl%la
+							else
+								agl=agl%la
+						}
+						var suf_dest=(function(angle){return pygame.Surface([Math.ceil(h*sin(angle)+w*cos(angle)),Math.ceil(w*sin(angle)+h*cos(angle))])})(agl)
+						this.rotate2(suf_dest,suf,angle)
+						return suf_dest
+					}
 				}
 			}
 		}
