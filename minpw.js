@@ -383,6 +383,18 @@
 				get_height(){
 					return this.height
 				}
+				mpwSave(){
+					this.context.save()
+				}
+				mpwRestore(){
+					this.context.restore()
+				}
+				get mpwBlitMode(){
+					return this.context.globalCompositeOperation
+				}
+				set mpwBlitMode(x){
+					this.context.globalCompositeOperation=x
+				}
 			}
 			this.Surface=wrapperConstructor.bind(null,Surface)
 			class Image extends Surface{
