@@ -696,6 +696,12 @@
 						this.rotate2(suf_dest,suf,angle)
 						return suf_dest
 					}
+					this.chop=function(suf,rect){
+						rect=pygame.Rect.apply(null,rect)
+						var suf_dest=suf.copy()
+						suf_dest.context.clearRect(rect.x,rect.y,rect.w,rect.h)
+						return suf_dest
+					}
 				}
 			}
 		}
