@@ -749,6 +749,8 @@
 								throw pygame.error("loops must be unset or -1")
 							if(loops==-1)
 								this.audioElement.loop=true
+							else
+								this.audioElement.loop=false
 							cnns.push(this)
 							this.audioElement.play()
 							this.audioElement.addEventListener("ended",(function(){
