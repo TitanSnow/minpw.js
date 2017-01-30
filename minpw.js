@@ -804,6 +804,20 @@
 					}
 				}
 			}
+			this.speech={
+				get_init:function(){
+					return false
+				},
+				init:function(pygame){
+					this.get_init=function(){
+						return true
+					}
+					this.speak=outside.speechSynthesis.speak.bind(outside.speechSynthesis)
+					this.Utterance=function(text){
+						return new outside.SpeechSynthesisUtterance(text)
+					}
+				}
+			}
 		}
 		init(){
 			var key
