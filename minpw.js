@@ -728,6 +728,80 @@
 					}
 				}
 			}
+			this.mixer={
+				get_init:function(){
+					return false
+				},
+				init:function(pygame){
+					this.get_init=function(){
+						return true
+					}
+					var cnns=[]
+					class Sound{
+						constructor(args){
+							var src=args[0]
+							this.audioElement=document.createElement("audio")
+							this.audioElement.src=src
+							this.audioElement.preload="auto"
+						}
+						play(loops){
+							if(arguments.length!=0&&loops!=-1)
+								throw pygame.error("loops must be unset or -1")
+							if(loops==-1)
+								this.audioElement.loop=true
+							cnns.push(this)
+							this.audioElement.play()
+							this.audioElement.addEventListener("ended",(function(){
+								cnns.remove(this)
+							}).bind(this))
+						}
+						pause(){
+							this.audioElement.pause()
+						}
+						unpause(){
+							this.audioElement.play()
+						}
+						rewind(){
+							this.audioElement.currentTime=0
+						}
+						stop(){
+							this.pause()
+							this.rewind()
+							cnns.remove(this)
+						}
+						get volume(){
+							return this.audioElement.volume
+						}
+						set volume(x){
+							this.audioElement.volume=x
+						}
+						get_volume(){
+							return this.volume
+						}
+						set_volume(x){
+							this.volume=x
+						}
+					}
+					this.Sound=wrapperConstructor.bind(null,Sound)
+					this.stop=function(){
+						while(cnns.length)
+							cnns[0].stop()
+					}
+					this.pause=function(){
+						var s
+						for(s of cnns)
+							s.pause()
+					}
+					this.unpause=function(){
+						var s
+						for(s of cnns)
+							s.unpause()
+					}
+					this.get_busy=function(){
+						return cnns.length!=0
+					}
+				}
+			}
 		}
 		init(){
 			var key
