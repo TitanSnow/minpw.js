@@ -718,6 +718,14 @@
 						suf_dest.context.putImageData(px,0,0)
 						return suf_dest
 					}
+					this.mpwUnconventionalSharpen_ip=function(suf,alpha){
+						var l2=this.laplacian(suf)
+						suf.mpwSave()
+						suf.context.globalAlpha=alpha
+						suf.mpwBlitMode="soft-light"
+						suf.blit(l2,[0,0])
+						suf.mpwRestore()
+					}
 				}
 			}
 		}
