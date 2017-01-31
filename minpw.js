@@ -825,7 +825,7 @@
 					})
 				var req=new XMLHttpRequest()
 				req.onload=function(e){
-					var newurl=URL.createObjectURL(new Blob([req.response]))
+					var newurl=(URL||webkitURL).createObjectURL(new Blob([req.response]))
 					callback(newurl)
 				}
 				req.open("GET",url,true)
