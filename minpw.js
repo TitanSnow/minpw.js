@@ -20,6 +20,7 @@
 		None:null,
 		True:true,
 		False:false,
+		str:function(x){return x.toString()},
 		init:function(){
 			var key
 			for(key in this)
