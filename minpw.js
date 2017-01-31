@@ -333,6 +333,8 @@
 			class Surface{
 				constructor(size){
 					size=size[0]
+					size[0]=Math.max(size[0],1)
+					size[1]=Math.max(size[1],1)
 					this.context=document.createElement("canvas").getContext("2d")
 					this.canvas.width=size[0]
 					this.canvas.height=size[1]
