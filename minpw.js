@@ -818,6 +818,20 @@
 					}
 				}
 			}
+			this.preload=function preload(url,callback){
+				if(arguments.length==1)
+					return new Promise(function(resolve,reject){
+						preload(url,resolve)
+					})
+				var req=new XMLHttpRequest()
+				req.onload=function(e){
+					var newurl=URL.createObjectURL(new Blob([req.response]))
+					callback(newurl)
+				}
+				req.open("GET",url,true)
+				req.responseType="arraybuffer"
+				req.send()
+			}
 		}
 		init(){
 			var key
