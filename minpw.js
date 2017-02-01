@@ -29,7 +29,12 @@
 		}
 	}
 	function wrapperConstructor(cls){
-		return new cls(Array.prototype.slice.call(arguments,1))
+		var len=arguments.length
+		var args=[]
+		var i
+		for(i=1;i<len;++i)
+			args.push(arguments[i])
+		return new cls(args)
 	}
 	var BaseException,Exception
 	;(function implementExceptions(){
