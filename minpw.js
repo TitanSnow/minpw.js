@@ -234,7 +234,7 @@
 					arr=new Color(r,g,b)
 				return arr
 			}
-			this.Rect=function(x,y,w,h){
+			this.Rect=function rect(x,y,w,h){
 				class Rect extends outside.Array{
 					get x(){
 						return this[0]
@@ -289,6 +289,22 @@
 					}
 					get bottom(){
 						return this.y+this.h
+					}
+					copy(){
+						return rect.apply(null,this)
+					}
+					move(x,y){
+						var r=this.copy()
+						r.move_ip(x,y)
+						return r
+					}
+					move_ip(x,y){
+						if(y==null){
+							y=x[1]
+							x=x[0]
+						}
+						this.x+=Math.round(x)
+						this.y+=Math.round(y)
 					}
 				}
 				var obj=new Rect(x,y,w,h)
