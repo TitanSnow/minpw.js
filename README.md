@@ -60,3 +60,137 @@ I look forward to getting a pull request from you because it's impossible to wri
 I think my code is clear and I write it in ES6 then they will not look like a mess. Although there're few comments, ... (ok, I'm just not used to writing comments) So, waiting for your issues or pull requests for a new module or some lines fixing. Or, easier, a star.
 ## LICENSE
 Apache License 2.0, see the header of the script file
+## Introduction to Pygame in JS
+Pygame module is the most important in minpw.js and even minpw.js might just be a pygame port but not python. Here is code I found at [Introduction to Pygame](https://pygame.org/docs/tut/PygameIntro.html)
+```Python
+import sys, pygame
+pygame.init()
+
+size = width, height = 320, 240
+speed = [2, 2]
+black = 0, 0, 0
+
+screen = pygame.display.set_mode(size)
+
+ball = pygame.image.load("ball.bmp")
+ballrect = ball.get_rect()
+
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+
+    ballrect = ballrect.move(speed)
+    if ballrect.left < 0 or ballrect.right > width:
+        speed[0] = -speed[0]
+    if ballrect.top < 0 or ballrect.bottom > height:
+        speed[1] = -speed[1]
+
+    screen.fill(black)
+    screen.blit(ball, ballrect)
+    pygame.display.flip()
+```
+This section will port it to web and may give you some ideas
+
+First part
+```Python
+import sys, pygame
+pygame.init()
+```
+In JS I import module in html file (<code>"import"</code> in ES6? No one support up to now). JS code:
+```JavaScript
+"use strict"
+pygame.init()
+```
+Next
+```Python
+size = width, height = 320, 240
+speed = [2, 2]
+black = 0, 0, 0
+
+screen = pygame.display.set_mode(size)
+```
+Little syntax modification
+```JavaScript
+var width,height
+var size = [width=320, height=240]
+var speed = [2, 2]
+var black = [0, 0, 0]
+
+var screen = pygame.display.set_mode(size)
+```
+Next
+```Python
+ball = pygame.image.load("ball.bmp")
+ballrect = ball.get_rect()
+```
+In JS everything is asynchronous so you need callback function
+```JavaScript
+pygame.image.load("ball.bmp").then(function(ball){
+var ballrect = ball.get_rect()
+```
+Traditional callback and new await/async in ES7 is also supported
+
+Next
+```Python
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+
+    ballrect = ballrect.move(speed)
+    if ballrect.left < 0 or ballrect.right > width:
+        speed[0] = -speed[0]
+    if ballrect.top < 0 or ballrect.bottom > height:
+        speed[1] = -speed[1]
+
+    screen.fill(black)
+    screen.blit(ball, ballrect)
+    pygame.display.flip()
+```
+Seems that there is nothing amazing just mind that game loop should be aync:
+```JavaScript
+var clock=pygame.time.Clock();
+(function loop(){
+	clock.tick(60).then(loop)
+	ballrect = ballrect.move(speed)
+	if(ballrect.left < 0 || ballrect.right > width)
+		speed[0] = -speed[0]
+	if(ballrect.top < 0 || ballrect.bottom > height)
+		speed[1] = -speed[1]
+
+	screen.fill(black)
+    screen.blit(ball, ballrect)
+    pygame.display.flip()
+})()
+```
+All is done! You get it to be online! Full code is below
+```JavaScript
+addEventListener("load",function(){
+"use strict"
+pygame.init()
+
+var width,height
+var size = [width=320, height=240]
+var speed = [2, 2]
+var black = [0, 0, 0]
+
+var screen = pygame.display.set_mode(size)
+
+pygame.image.load("ball.bmp").then(function(ball){
+	var ballrect = ball.get_rect()
+	var clock=pygame.time.Clock();
+
+	(function loop(){
+		clock.tick(60).then(loop)
+	    ballrect = ballrect.move(speed)
+	    if(ballrect.left < 0 || ballrect.right > width)
+	        speed[0] = -speed[0]
+	    if(ballrect.top < 0 || ballrect.bottom > height)
+	        speed[1] = -speed[1]
+
+	    screen.fill(black)
+	    screen.blit(ball, ballrect)
+	    pygame.display.flip()
+	})()
+})
+})
+```
