@@ -197,27 +197,27 @@ pygame.image.load("ball.bmp").then(function(ball){
 ### Note
 1. Surface is a wrapper of HTML5 canvas so it won't run on old browsers. Most of the functions and methods are just simple wrappers of native interfaces so it's no doubt that they're fast. Some high-level ones like blur have algorithms written in JS so they might be slower. Mind that some will access pixel data so make sure the resources are in the same domain.
 2. Minpw.js does not listen events. That means, you need to listen events by yourself. When a event which you expect happens, put it to event queue like this:
-```JavaScript
-// first define the event
-window.KEYDOWN=0            // could be any value you like
-window.K_s    =1            // feel free
-key("s",function(e){        // I use a lib, keymaster.js to listen keyboard events so that no worry about keycode anymore
-                            // this lib could be found at madrobby/keymaster on github
-	e.preventDefault()      // to prevent default action that browser does
-	pygame.event.append({   // Then push it back to event queue
-		type:KEYDOWN,       // "type" points out type of event
-		key:K_s             // "key"  points out key that pressed
+	```JavaScript
+	// first define the event
+	window.KEYDOWN=0            // could be any value you like
+	window.K_s    =1            // feel free
+	key("s",function(e){        // I use a lib, keymaster.js to listen keyboard events so that no worry about keycode anymore
+	                            // this lib could be found at madrobby/keymaster on github
+		e.preventDefault()      // to prevent default action that browser does
+		pygame.event.append({   // Then push it back to event queue
+			type:KEYDOWN,       // "type" points out type of event
+			key:K_s             // "key"  points out key that pressed
+		})
 	})
-})
 
-// Next I will show you how to get events in pygame's way
-for(let e of pygame.event.get()){    // New for-loop in ES6
-	if(e.type==KEYDOWN)              // Look the type
-		// Do something
-	else if(...){
-		// Peek the event
-		pygame.event.append(e)       // If just peek, throw it back
+	// Next I will show you how to get events in pygame's way
+	for(let e of pygame.event.get()){    // New for-loop in ES6
+		if(e.type==KEYDOWN)              // Look the type
+			// Do something
+		else if(...){
+			// Peek the event
+			pygame.event.append(e)       // If just peek, throw it back
+		}
 	}
-}
 ```
 3. If something you looked but not found, open a issue.
