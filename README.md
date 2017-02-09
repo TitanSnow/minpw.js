@@ -76,18 +76,18 @@ ball = pygame.image.load("ball.bmp")
 ballrect = ball.get_rect()
 
 while 1:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT: sys.exit()
 
-    ballrect = ballrect.move(speed)
-    if ballrect.left < 0 or ballrect.right > width:
-        speed[0] = -speed[0]
-    if ballrect.top < 0 or ballrect.bottom > height:
-        speed[1] = -speed[1]
+	ballrect = ballrect.move(speed)
+	if ballrect.left < 0 or ballrect.right > width:
+		speed[0] = -speed[0]
+	if ballrect.top < 0 or ballrect.bottom > height:
+		speed[1] = -speed[1]
 
-    screen.fill(black)
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
+	screen.fill(black)
+	screen.blit(ball, ballrect)
+	pygame.display.flip()
 ```
 This section will port it to web and may give you some ideas
 
@@ -133,18 +133,18 @@ Traditional callback and new await/async in ES7 is also supported
 Next
 ```Python
 while 1:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT: sys.exit()
 
-    ballrect = ballrect.move(speed)
-    if ballrect.left < 0 or ballrect.right > width:
-        speed[0] = -speed[0]
-    if ballrect.top < 0 or ballrect.bottom > height:
-        speed[1] = -speed[1]
+	ballrect = ballrect.move(speed)
+	if ballrect.left < 0 or ballrect.right > width:
+		speed[0] = -speed[0]
+	if ballrect.top < 0 or ballrect.bottom > height:
+		speed[1] = -speed[1]
 
-    screen.fill(black)
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
+	screen.fill(black)
+	screen.blit(ball, ballrect)
+	pygame.display.flip()
 ```
 Seems that there is nothing amazing just mind that game loop should be aync:
 ```JavaScript
@@ -158,8 +158,8 @@ var clock=pygame.time.Clock();
 		speed[1] = -speed[1]
 
 	screen.fill(black)
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
+	screen.blit(ball, ballrect)
+	pygame.display.flip()
 })()
 ```
 All is done! You get it to be online! Full code is below
@@ -181,15 +181,15 @@ pygame.image.load("ball.bmp").then(function(ball){
 
 	(function loop(){
 		clock.tick(60).then(loop)
-	    ballrect = ballrect.move(speed)
-	    if(ballrect.left < 0 || ballrect.right > width)
-	        speed[0] = -speed[0]
-	    if(ballrect.top < 0 || ballrect.bottom > height)
-	        speed[1] = -speed[1]
+		ballrect = ballrect.move(speed)
+		if(ballrect.left < 0 || ballrect.right > width)
+			speed[0] = -speed[0]
+		if(ballrect.top < 0 || ballrect.bottom > height)
+			speed[1] = -speed[1]
 
-	    screen.fill(black)
-	    screen.blit(ball, ballrect)
-	    pygame.display.flip()
+		screen.fill(black)
+		screen.blit(ball, ballrect)
+		pygame.display.flip()
 	})()
 })
 })
